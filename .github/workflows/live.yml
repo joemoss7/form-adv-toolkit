@@ -1,0 +1,43 @@
+# Runs the toolkit against the SEC's real files and keeps the CSVs as a run artifact for 7 days.
+# Weekly, to catch changes in the SEC's formats early; or by hand (Actions → Live SEC data → Run workflow).
+name: Live SEC data
+on:
+  schedule:
+    - cron: "30 13 * * 1"
+  workflow_dispatch:
+    inputs:
+      commands:
+        description: "Commands to run, space-separated: firms advisors history owners"
+        default: "firms advisors"
+      since:
+        description: "history/owners: only bulk files from this date (YYYY-MM-DD); blank = since 2011"
+        default: "2025-01-01"
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      SEC_USER_AGENT: "form-adv-toolkit (https://github.com/${{ github.repository }})"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run
+        env:
+          COMMANDS: ${{ inputs.commands || 'firms advisors' }}
+          S: ${{ inputs.since }}
+        run: |
+          for c in $COMMANDS; do
+            case "$c" in firms|advisors|history|owners) ;; *) echo "Unknown command: $c"; exit 2 ;; esac
+            case "$c" in
+              history|owners) node bin/form-adv.js "$c" ${S:+--since "$S"} ;;
+              *) node bin/form-adv.js "$c" ;;
+            esac
+          done
+          { echo "| file | rows |"; echo "|---|---|"; for f in data/*.csv; do echo "| $(basename "$f") | $(($(wc -l < "$f") - 1)) |"; done; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: form-adv-data
+          path: data/*.csv
+          retention-days: 7

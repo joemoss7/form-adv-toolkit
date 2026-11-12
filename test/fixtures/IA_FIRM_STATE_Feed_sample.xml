@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<IAPDFirmStateReport><Firms>
+<Firm><Info FirmCrdNb="900001" BusNm="EXAMPLE WEALTH PARTNERS, LLC" LegalNm="EXAMPLE WEALTH PARTNERS LLC"/><MainAddr City="AUSTIN" State="TX"/><Rgstn FirmType="Registered" St="APPROVED"/><Filing Dt="2014-01-01"/></Firm>
+<Firm><Info FirmCrdNb="900003" BusNm="SMALL TOWN PLANNING" LegalNm="SMALL TOWN PLANNING LLC"/><MainAddr City="BOISE" State="ID"/><Rgstn FirmType="Registered" St="APPROVED"/><Filing Dt="2026-01-10"/><FormInfo><Part1A><Item5D Q5DA1="25"/><Item5G Q5G1="Y"/></Part1A></FormInfo></Firm>
+</Firms></IAPDFirmStateReport>

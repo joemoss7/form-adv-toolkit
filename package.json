@@ -1,0 +1,14 @@
+{
+  "name": "form-adv-toolkit",
+  "version": "0.1.0",
+  "description": "SEC investment adviser data (Form ADV) as clean CSVs: firms, advisors, moves between firms, owners, and size history since 2011.",
+  "type": "module",
+  "bin": { "form-adv": "bin/form-adv.js" },
+  "exports": "./src/index.js",
+  "files": ["bin", "src"],
+  "engines": { "node": ">=20" },
+  "scripts": { "test": "node --test" },
+  "keywords": ["sec", "form-adv", "ria", "investment-adviser", "financial-advisor", "iapd", "open-data"],
+  "author": "Joe Moss",
+  "license": "MIT"
+}
